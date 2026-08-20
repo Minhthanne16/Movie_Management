@@ -2,7 +2,16 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { Mail, Lock, ArrowRight, Eye, EyeOff, Film, Sparkles, Loader2 } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  ArrowRight,
+  Eye,
+  EyeOff,
+  Film,
+  Sparkles,
+  Loader2,
+} from "lucide-react";
 import { authService } from "../../services/auth.service";
 
 export default function Login() {
@@ -66,7 +75,12 @@ export default function Login() {
         <motion.div
           className="absolute -bottom-32 left-1/3 w-[350px] h-[350px] bg-tickify-purple/10 rounded-full blur-[100px]"
           animate={{ scale: [1.1, 1, 1.1], opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
         />
       </div>
 
@@ -95,7 +109,7 @@ export default function Login() {
                   <Film size={24} className="text-white" />
                 </motion.div>
                 <span className="text-2xl font-display font-bold bg-gradient-to-r from-tickify-pink via-tickify-purple to-tickify-cyan bg-clip-text text-transparent">
-                  Tickify
+                  Lycine
                 </span>
               </div>
 
@@ -248,15 +262,15 @@ export default function Login() {
               </motion.button>
             </motion.form>
 
-              <p className="text-center text-sm text-gray-500 mt-6">
-                Chưa có tài khoản?{" "}
-                <Link
-                  to="/register"
-                  className="text-tickify-cyan font-bold hover:underline hover:text-tickify-cyan/80 transition-colors"
-                >
-                  Đăng ký ngay
-                </Link>
-              </p>
+            <p className="text-center text-sm text-gray-500 mt-6">
+              Chưa có tài khoản?{" "}
+              <Link
+                to="/register"
+                className="text-tickify-cyan font-bold hover:underline hover:text-tickify-cyan/80 transition-colors"
+              >
+                Đăng ký ngay
+              </Link>
+            </p>
 
             {/* Footer */}
             <motion.p
@@ -265,9 +279,8 @@ export default function Login() {
               transition={{ delay: 0.8 }}
               className="text-center text-[11px] text-gray-600 mt-8 tracking-wider"
             >
-              © 2026 Tickify — Hệ thống đặt vé phim trực tuyến
+              © 2026 Lycine — Hệ thống đặt vé phim trực tuyến
             </motion.p>
-
           </motion.div>
         </div>
 
@@ -286,7 +299,9 @@ export default function Login() {
               </div>
               <div>
                 <p className="text-white text-sm font-bold">Khám phá ngay</p>
-                <p className="text-gray-500 text-xs">Hàng ngàn bộ phim đang chờ bạn</p>
+                <p className="text-gray-500 text-xs">
+                  Hàng ngàn bộ phim đang chờ bạn
+                </p>
               </div>
             </div>
             <div className="flex gap-2">

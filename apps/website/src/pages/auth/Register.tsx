@@ -2,7 +2,17 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { Mail, Lock, User, ShieldCheck, ArrowRight, Eye, EyeOff, UserPlus, Loader2 } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  User,
+  ShieldCheck,
+  ArrowRight,
+  Eye,
+  EyeOff,
+  UserPlus,
+  Loader2,
+} from "lucide-react";
 import { authService } from "../../services/auth.service";
 
 export default function Register() {
@@ -35,7 +45,11 @@ export default function Register() {
       // Đăng ký xong có thể tự động login hoặc chuyển sang trang login
       navigate("/");
     } catch (err: any) {
-      setError(typeof err === "string" ? err : "Đăng ký không thành công. Gmail có thể đã tồn tại.");
+      setError(
+        typeof err === "string"
+          ? err
+          : "Đăng ký không thành công. Gmail có thể đã tồn tại.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -45,7 +59,11 @@ export default function Register() {
     <div className="min-h-screen flex relative overflow-hidden bg-slate-950">
       {/* ── Background ── */}
       <div className="absolute inset-0">
-        <img src="/movie-bg.png" alt="" className="w-full h-full object-cover scale-105 opacity-40 blur-[2px]" />
+        <img
+          src="/movie-bg.png"
+          alt=""
+          className="w-full h-full object-cover scale-105 opacity-40 blur-[2px]"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950/80 to-slate-950" />
       </div>
 
@@ -62,8 +80,12 @@ export default function Register() {
                 <UserPlus size={28} className="text-white" />
               </div>
             </div>
-            <h1 className="text-3xl font-display font-bold text-white mb-2">Tạo tài khoản</h1>
-            <p className="text-gray-400 text-sm">Tham gia cộng đồng điện ảnh Tickify ngay hôm nay</p>
+            <h1 className="text-3xl font-display font-bold text-white mb-2">
+              Tạo tài khoản
+            </h1>
+            <p className="text-gray-400 text-sm">
+              Tham gia cộng đồng điện ảnh Lycine ngay hôm nay
+            </p>
           </div>
 
           {/* Error Message */}
@@ -85,69 +107,118 @@ export default function Register() {
             {/* ... (các trường input giữ nguyên) ... */}
             {/* Full Name */}
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Họ và tên</label>
+              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                Họ và tên
+              </label>
               <div className="relative group">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-tickify-cyan transition-colors" size={18} />
+                <User
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-tickify-cyan transition-colors"
+                  size={18}
+                />
                 <input
-                  {...register("fullName", { required: "Vui lòng nhập họ tên" })}
+                  {...register("fullName", {
+                    required: "Vui lòng nhập họ tên",
+                  })}
                   placeholder="Nguyễn Văn A"
                   className="w-full bg-slate-900/60 border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-sm text-white focus:outline-none focus:border-tickify-cyan/50 focus:ring-2 focus:ring-tickify-cyan/10 transition-all placeholder:text-gray-600"
                 />
               </div>
-              {errors.fullName && <p className="text-red-400 text-[10px] font-bold mt-1 ml-1">{errors.fullName.message as string}</p>}
+              {errors.fullName && (
+                <p className="text-red-400 text-[10px] font-bold mt-1 ml-1">
+                  {errors.fullName.message as string}
+                </p>
+              )}
             </div>
 
             {/* Email */}
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Gmail</label>
+              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                Gmail
+              </label>
               <div className="relative group">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-tickify-cyan transition-colors" size={18} />
+                <Mail
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-tickify-cyan transition-colors"
+                  size={18}
+                />
                 <input
-                  {...register("email", { 
+                  {...register("email", {
                     required: "Vui lòng nhập Gmail",
-                    pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: "Gmail không hợp lệ" }
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Gmail không hợp lệ",
+                    },
                   })}
-                  placeholder="admin@tickify.vn"
+                  placeholder="admin@lycine.vn"
                   className="w-full bg-slate-900/60 border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-sm text-white focus:outline-none focus:border-tickify-cyan/50 focus:ring-2 focus:ring-tickify-cyan/10 transition-all placeholder:text-gray-600"
                 />
               </div>
-              {errors.email && <p className="text-red-400 text-[10px] font-bold mt-1 ml-1">{errors.email.message as string}</p>}
+              {errors.email && (
+                <p className="text-red-400 text-[10px] font-bold mt-1 ml-1">
+                  {errors.email.message as string}
+                </p>
+              )}
             </div>
 
             {/* Password */}
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Mật khẩu</label>
+              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                Mật khẩu
+              </label>
               <div className="relative group">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-tickify-cyan transition-colors" size={18} />
+                <Lock
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-tickify-cyan transition-colors"
+                  size={18}
+                />
                 <input
-                  {...register("password", { required: "Vui lòng nhập mật khẩu", minLength: { value: 6, message: "Tối thiểu 6 ký tự" } })}
+                  {...register("password", {
+                    required: "Vui lòng nhập mật khẩu",
+                    minLength: { value: 6, message: "Tối thiểu 6 ký tự" },
+                  })}
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   className="w-full bg-slate-900/60 border border-white/10 rounded-xl py-3.5 pl-12 pr-12 text-sm text-white focus:outline-none focus:border-tickify-cyan/50 focus:ring-2 focus:ring-tickify-cyan/10 transition-all placeholder:text-gray-600"
                 />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors">
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
+                >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
-              {errors.password && <p className="text-red-400 text-[10px] font-bold mt-1 ml-1">{errors.password.message as string}</p>}
+              {errors.password && (
+                <p className="text-red-400 text-[10px] font-bold mt-1 ml-1">
+                  {errors.password.message as string}
+                </p>
+              )}
             </div>
 
             {/* Confirm Password */}
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Xác nhận mật khẩu</label>
+              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                Xác nhận mật khẩu
+              </label>
               <div className="relative group">
-                <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-tickify-cyan transition-colors" size={18} />
+                <ShieldCheck
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-tickify-cyan transition-colors"
+                  size={18}
+                />
                 <input
-                  {...register("confirmPassword", { 
-                    required: "Vui lòng xác nhận mật khẩu", 
-                    validate: (v: string) => v === password || "Mật khẩu không khớp" 
+                  {...register("confirmPassword", {
+                    required: "Vui lòng xác nhận mật khẩu",
+                    validate: (v: string) =>
+                      v === password || "Mật khẩu không khớp",
                   })}
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   className="w-full bg-slate-900/60 border border-white/10 rounded-xl py-3.5 pl-12 pr-12 text-sm text-white focus:outline-none focus:border-tickify-cyan/50 focus:ring-2 focus:ring-tickify-cyan/10 transition-all placeholder:text-gray-600"
                 />
               </div>
-              {errors.confirmPassword && <p className="text-red-400 text-[10px] font-bold mt-1 ml-1">{errors.confirmPassword.message as string}</p>}
+              {errors.confirmPassword && (
+                <p className="text-red-400 text-[10px] font-bold mt-1 ml-1">
+                  {errors.confirmPassword.message as string}
+                </p>
+              )}
             </div>
 
             <button
@@ -160,7 +231,10 @@ export default function Register() {
               ) : (
                 <>
                   Đăng ký tài khoản
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight
+                    size={18}
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
                 </>
               )}
             </button>
@@ -168,7 +242,12 @@ export default function Register() {
 
           <p className="text-center mt-10 text-sm text-gray-500">
             Đã có tài khoản?{" "}
-            <Link to="/" className="text-tickify-cyan font-bold hover:underline">Đăng nhập</Link>
+            <Link
+              to="/"
+              className="text-tickify-cyan font-bold hover:underline"
+            >
+              Đăng nhập
+            </Link>
           </p>
         </motion.div>
       </div>

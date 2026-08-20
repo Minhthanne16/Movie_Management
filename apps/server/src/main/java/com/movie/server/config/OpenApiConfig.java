@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "Tickify Cinema API",
+                title = "Lycine Cinema API",
                 version = "1.0",
-                description = "Backend API for Tickify cinema management system. " +
+                description = "Backend API for Lycine cinema management system. " +
                               "Three roles: ADMIN, STAFF, CUSTOMER. " +
                               "Authenticate via POST /api/auth/login to get a Bearer token, " +
                               "then click 'Authorize' and enter: Bearer <token>"

@@ -11,7 +11,7 @@ export default function Footer() {
               <Film className="text-white w-5 h-5" />
             </div>
             <span className="text-xl font-display font-bold tracking-tight">
-              Tickify
+              Lycine
             </span>
           </Link>
           <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
@@ -149,7 +149,7 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
         <p className="text-gray-600 text-xs">
-          © 2025 <span className="font-bold">Tickify.com</span> - Your Premier
+          © 2025 <span className="font-bold">Lycine.com</span> - Your Premier
           Movie Booking Experience in the Digital Cosmos
         </p>
         <div className="flex gap-6">

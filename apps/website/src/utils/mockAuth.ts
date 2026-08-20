@@ -16,21 +16,21 @@ export interface MockUser {
 // Danh sách tài khoản demo
 export const MOCK_ACCOUNTS: MockUser[] = [
   {
-    email: "admin@tickify.vn",
+    email: "admin@lycine.vn",
     password: "admin123",
     role: "admin",
-    name: "Admin Tickify",
+    name: "Admin Lycine",
     redirectPath: "/admin/dashboard",
   },
   {
-    email: "staff@tickify.vn",
+    email: "staff@lycine.vn",
     password: "staff123",
     role: "staff",
     name: "Nhân viên POS",
     redirectPath: "/staff/dashboard",
   },
   {
-    email: "customer@tickify.vn",
+    email: "customer@lycine.vn",
     password: "customer123",
     role: "customer",
     name: "Khách hàng",

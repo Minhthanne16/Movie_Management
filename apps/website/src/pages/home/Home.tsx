@@ -3,7 +3,6 @@ import Stats from "./components/Stats.tsx";
 import NowShowing from "./components/NowShowing.tsx";
 import ComingSoon from "./components/ComingSoon.tsx";
 
-
 export default function Home() {
   return (
     <>
@@ -11,7 +10,7 @@ export default function Home() {
       <Stats />
       <NowShowing />
       <ComingSoon />
-      
+
       {/* CTA Banner */}
       <section className="px-8 py-20">
         <div className="relative w-full rounded-[3rem] overflow-hidden bg-linear-to-r from-tickify-pink/20 to-tickify-purple/20 border border-white/10 p-12 md:p-20 text-center">
@@ -21,7 +20,8 @@ export default function Home() {
               Ready for Your Next Cyberpunk Cinema Adventure?
             </h2>
             <p className="text-gray-400 text-lg mb-10">
-              Join thousands of digital movie explorers who trust Tickify for the ultimate cosmic cinema experience in the virtual realm.
+              Join thousands of digital movie explorers who trust Lycine for the
+              ultimate cosmic cinema experience in the virtual realm.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <button className="bg-tickify-pink hover:bg-tickify-pink/90 text-white px-10 py-4 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(255,0,128,0.3)]">

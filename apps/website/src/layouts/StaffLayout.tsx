@@ -1,6 +1,12 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Film, LogOut, LayoutDashboard, ShoppingCart, CupSoda } from "lucide-react";
+import {
+  Film,
+  LogOut,
+  LayoutDashboard,
+  ShoppingCart,
+  CupSoda,
+} from "lucide-react";
 import { authService } from "../services/auth.service";
 
 interface StaffLayoutProps {
@@ -19,7 +25,10 @@ export default function StaffLayout({ children }: StaffLayoutProps) {
   };
 
   const isActive = (path: string) => {
-    if (path === "/staff/dashboard" && (currentPath === "/staff" || currentPath === "/staff/dashboard")) {
+    if (
+      path === "/staff/dashboard" &&
+      (currentPath === "/staff" || currentPath === "/staff/dashboard")
+    ) {
       return true;
     }
     return currentPath === path;
@@ -39,12 +48,17 @@ export default function StaffLayout({ children }: StaffLayoutProps) {
       <header className="border-b border-white/[0.06] bg-tickify-card/50 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/staff/dashboard")}>
+            <div
+              className="flex items-center gap-3 cursor-pointer"
+              onClick={() => navigate("/staff/dashboard")}
+            >
               <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-tickify-cyan to-tickify-purple flex items-center justify-center shadow-lg">
                 <Film size={18} className="text-white" />
               </div>
               <div>
-                <span className="text-lg font-display font-bold text-white">Tickify</span>
+                <span className="text-lg font-display font-bold text-white">
+                  Lycine
+                </span>
                 <span className="ml-2 text-[10px] font-bold uppercase tracking-widest text-tickify-cyan bg-tickify-cyan/10 px-2 py-0.5 rounded-full">
                   {role || "Staff"}
                 </span>
@@ -88,9 +102,7 @@ export default function StaffLayout({ children }: StaffLayoutProps) {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-10">
-        {children}
-      </main>
+      <main className="max-w-7xl mx-auto px-6 py-10">{children}</main>
     </div>
   );
 }

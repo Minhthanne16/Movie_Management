@@ -31,7 +31,7 @@ export default function Header() {
           </div>
           <div className="flex flex-col leading-none">
             <span className="text-2xl font-display font-bold tracking-tight">
-              Tickify
+              Lycine
             </span>
             <span className="text-[10px] text-gray-500 font-medium tracking-[0.2em] uppercase">
               .com

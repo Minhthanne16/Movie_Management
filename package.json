@@ -22,8 +22,7 @@
   },
   "lint-staged": {
     "apps/website/**/*.{js,ts,jsx,tsx}": [
-      "cd apps/website && npx eslint --fix",
-      "cd apps/website && npx prettier --write"
+      "prettier --write"
     ]
   },
   "dependencies": {

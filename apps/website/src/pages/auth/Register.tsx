@@ -243,7 +243,7 @@ export default function Register() {
           <p className="text-center mt-10 text-sm text-gray-500">
             Đã có tài khoản?{" "}
             <Link
-              to="/"
+              to="/login"
               className="text-tickify-cyan font-bold hover:underline"
             >
               Đăng nhập

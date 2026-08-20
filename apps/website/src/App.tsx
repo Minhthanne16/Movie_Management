@@ -32,12 +32,20 @@ export default function App() {
     <Router>
       <Routes>
         {/* ================= AUTH ROUTES ================= */}
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-
         {/* ================= USER ROUTES ================= */}
-        <Route element={<BookingProvider><MainLayout><Outlet /></MainLayout></BookingProvider>}>
+        <Route
+          element={
+            <BookingProvider>
+              <MainLayout>
+                <Outlet />
+              </MainLayout>
+            </BookingProvider>
+          }
+        >
+          <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/theater" element={<Theater />} />
@@ -47,14 +55,12 @@ export default function App() {
           <Route path="/confirmation" element={<BookingConfirmation />} />
           <Route path="/payment/vnpay-return" element={<VnpayReturn />} />
         </Route>
-
         {/* ================= STAFF ROUTES ================= */}
         <Route path="/staff" element={<StaffDashboard />} />
         <Route path="/staff/dashboard" element={<StaffDashboard />} />
         <Route path="/staff/pos" element={<StaffPOS />} />
         <Route path="/staff/food" element={<FoodPOS />} />
         <Route path="/staff/history" element={<StaffHistory />} />
-
         {/* ================= ADMIN ROUTES ================= */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/profile" element={<AdminProfile />} />
@@ -63,10 +69,17 @@ export default function App() {
         <Route path="/admin/foods" element={<AdminFoods />} />
         <Route path="/admin/cinemas" element={<AdminRooms />} />
         <Route path="/admin/staff" element={<AdminStaff />} />
-        <Route path="/admin/analytics" element={<AdminDashboard />} /> {/* Placeholder */}
-
+        <Route path="/admin/analytics" element={<AdminDashboard />} />{" "}
+        {/* Placeholder */}
         {/* ================= FALLBACK ================= */}
-        <Route path="*" element={<MainLayout><Home /></MainLayout>} />
+        <Route
+          path="*"
+          element={
+            <MainLayout>
+              <Home />
+            </MainLayout>
+          }
+        />
       </Routes>
     </Router>
   );

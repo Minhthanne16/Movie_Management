@@ -12,7 +12,7 @@
     "backend:win": "cd apps/server && cmd //c gradlew.bat bootRun --args=\"--spring.profiles.active=test-local\"",
     "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
     "dev:win": "concurrently \"npm run frontend\" \"npm run backend:win\"",
-    "prepare": "husky"
+    "prepare": "node -e \"if (!process.env.CI && !process.env.VERCEL) { import('husky').catch(() => {}); }\""
   },
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",

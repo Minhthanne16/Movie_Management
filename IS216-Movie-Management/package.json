@@ -1,0 +1,31 @@
+{
+  "name": "movie",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "frontend": "npm run dev --prefix apps/website",
+    "backend": "cd apps/server && ./gradlew bootRun --args='--spring.profiles.active=test-local'",
+    "backend:win": "cd apps/server && cmd //c gradlew.bat bootRun --args=\"--spring.profiles.active=test-local\"",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "dev:win": "concurrently \"npm run frontend\" \"npm run backend:win\"",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "concurrently": "^8.2.2",
+    "husky": "^9.1.7"
+  },
+  "lint-staged": {
+    "apps/website/**/*.{js,ts,jsx,tsx}": [
+      "cd apps/website && npx eslint --fix",
+      "cd apps/website && npx prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "lucide-react": "^1.8.0",
+    "react-router-dom": "^7.14.0",
+    "tailwindcss": "^4.2.2"
+  }
+}

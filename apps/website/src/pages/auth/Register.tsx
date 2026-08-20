@@ -43,7 +43,7 @@ export default function Register() {
     try {
       await authService.register(data.fullName, data.email, data.password);
       // Đăng ký xong có thể tự động login hoặc chuyển sang trang login
-      navigate("/");
+      navigate("/home");
     } catch (err: any) {
       setError(
         typeof err === "string"

@@ -4,6 +4,7 @@ node_modules
 .DS_Store
 application.properties
 .env
+dist
+apps/website/dist
 
 .playwright-mcp
-*.png

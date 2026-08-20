@@ -6,7 +6,7 @@
     "apps/website"
   ],
   "scripts": {
-    "build": "npm run build --prefix apps/website",
+    "build": "npm run build --prefix apps/website && node -e \"import fs from 'fs'; fs.cpSync('apps/website/dist', 'dist', {recursive: true});\"",
     "frontend": "npm run dev --prefix apps/website",
     "backend": "cd apps/server && ./gradlew bootRun --args='--spring.profiles.active=test-local'",
     "backend:win": "cd apps/server && cmd //c gradlew.bat bootRun --args=\"--spring.profiles.active=test-local\"",

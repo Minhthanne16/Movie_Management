@@ -2,7 +2,11 @@
   "name": "movie",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "apps/website"
+  ],
   "scripts": {
+    "build": "npm run build --prefix apps/website",
     "frontend": "npm run dev --prefix apps/website",
     "backend": "cd apps/server && ./gradlew bootRun --args='--spring.profiles.active=test-local'",
     "backend:win": "cd apps/server && cmd //c gradlew.bat bootRun --args=\"--spring.profiles.active=test-local\"",

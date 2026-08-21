@@ -42,8 +42,8 @@ export default function Register() {
     setError(null);
     try {
       await authService.register(data.fullName, data.email, data.password);
-      // Đăng ký xong có thể tự động login hoặc chuyển sang trang login
-      navigate("/home");
+      // Đăng ký xong chuyển sang màn hình đăng nhập
+      navigate("/login", { state: { registeredEmail: data.email } });
     } catch (err: any) {
       setError(
         typeof err === "string"
@@ -148,7 +148,7 @@ export default function Register() {
                       message: "Gmail không hợp lệ",
                     },
                   })}
-                  placeholder="admin@lycine.vn"
+                  placeholder="you@gmail.com"
                   className="w-full bg-slate-900/60 border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-sm text-white focus:outline-none focus:border-tickify-cyan/50 focus:ring-2 focus:ring-tickify-cyan/10 transition-all placeholder:text-gray-600"
                 />
               </div>

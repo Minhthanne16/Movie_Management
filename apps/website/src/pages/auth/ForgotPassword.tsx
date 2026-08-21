@@ -85,7 +85,7 @@ export default function ForgotPassword() {
     setLoading(true);
     try {
       await authService.resetPassword(email, otp.join(""), data.password);
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       setError(typeof err === "string" ? err : "Password reset failed");
     } finally {
@@ -213,7 +213,7 @@ export default function ForgotPassword() {
 
                 <div className="text-center">
                   <Link
-                    to="/"
+                    to="/login"
                     className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-white transition-colors font-bold uppercase tracking-widest"
                   >
                     <ArrowLeft size={16} /> Quay lại đăng nhập

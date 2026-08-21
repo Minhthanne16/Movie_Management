@@ -91,14 +91,7 @@ export const authService = {
         email,
         password,
       });
-      const payload = response.data.data;
-      if (payload?.token) {
-        localStorage.setItem("token", payload.token);
-        localStorage.setItem("userEmail", email);
-        localStorage.setItem("userRole", payload.role ?? "CUSTOMER");
-        localStorage.setItem("userFullName", payload.fullName ?? fullName);
-      }
-      return payload;
+      return response.data.data;
     } catch (error) {
       // Fallback: Register locally in demo / offline mode
       const localUsers = getLocalUsers();
@@ -119,15 +112,10 @@ export const authService = {
       saveLocalUsers(localUsers);
 
       const payload = {
-        token: `demo-token-${Date.now()}`,
         email,
         role: "CUSTOMER",
         fullName,
       };
-      localStorage.setItem("token", payload.token);
-      localStorage.setItem("userEmail", email);
-      localStorage.setItem("userRole", "CUSTOMER");
-      localStorage.setItem("userFullName", fullName);
       return payload;
     }
   },

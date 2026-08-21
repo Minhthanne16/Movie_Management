@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Mail,
@@ -11,14 +11,18 @@ import {
   Film,
   Sparkles,
   Loader2,
+  CheckCircle2,
 } from "lucide-react";
 import { authService } from "../../services/auth.service";
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const registeredEmail = (location.state as any)?.registeredEmail || "";
 
   const {
     register,
@@ -26,7 +30,7 @@ export default function Login() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: "",
+      email: registeredEmail,
       password: "",
     },
   });
@@ -125,8 +129,24 @@ export default function Login() {
               </p>
             </motion.div>
 
-            {/* Error Message */}
+            {/* Success / Error Message */}
             <AnimatePresence>
+              {registeredEmail && !error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-3 rounded-xl text-xs font-medium mb-6 flex items-center gap-2"
+                >
+                  <CheckCircle2
+                    size={16}
+                    className="text-emerald-400 shrink-0"
+                  />
+                  <span>
+                    Đăng ký thành công! Vui lòng đăng nhập để tiếp tục.
+                  </span>
+                </motion.div>
+              )}
               {error && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}

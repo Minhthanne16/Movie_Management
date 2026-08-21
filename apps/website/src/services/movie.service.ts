@@ -69,8 +69,11 @@ const MOCK_MOVIES: Movie[] = [
   },
 ];
 
+const HAS_API_SERVER = Boolean(import.meta.env.VITE_API_URL);
+
 export const movieService = {
   getAll: async (): Promise<Movie[]> => {
+    if (!HAS_API_SERVER) return MOCK_MOVIES;
     try {
       const res = await api.get("/api/movies");
       return res.data.data;
@@ -80,6 +83,7 @@ export const movieService = {
   },
 
   getNowShowing: async (): Promise<Movie[]> => {
+    if (!HAS_API_SERVER) return MOCK_MOVIES;
     try {
       const res = await api.get("/api/movies/now-showing");
       return res.data.data;
@@ -89,6 +93,10 @@ export const movieService = {
   },
 
   getById: async (id: number): Promise<Movie> => {
+    if (!HAS_API_SERVER) {
+      const found = MOCK_MOVIES.find((m) => m.id === id);
+      return found || MOCK_MOVIES[0];
+    }
     try {
       const res = await api.get(`/api/movies/${id}`);
       return res.data.data;

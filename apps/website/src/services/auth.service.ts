@@ -26,140 +26,166 @@ function saveLocalUsers(users: LocalUser[]): void {
   }
 }
 
+const HAS_API_SERVER = Boolean(import.meta.env.VITE_API_URL);
+
 export const authService = {
   login: async (email: string, password: string) => {
-    try {
-      const response = await api.post("/api/auth/login", { email, password });
-      const payload = response.data.data;
-      if (payload?.token) {
-        localStorage.setItem("token", payload.token);
-        localStorage.setItem("userEmail", email);
-        localStorage.setItem("userRole", payload.role ?? "");
-        localStorage.setItem("userFullName", payload.fullName ?? "");
+    // 1. Kiểm tra tài khoản đã đăng ký trên máy (Offline / Local storage)
+    const localUsers = getLocalUsers();
+    const localUser = localUsers.find(
+      (u) => u.email.toLowerCase() === email.toLowerCase(),
+    );
+    if (localUser) {
+      if (localUser.password !== password) {
+        throw "Mật khẩu không chính xác.";
       }
+      const payload = {
+        token: `demo-token-${Date.now()}`,
+        email: localUser.email,
+        role: localUser.role || "CUSTOMER",
+        fullName: localUser.fullName,
+      };
+      localStorage.setItem("token", payload.token);
+      localStorage.setItem("userEmail", payload.email);
+      localStorage.setItem("userRole", payload.role);
+      localStorage.setItem("userFullName", payload.fullName);
       return payload;
-    } catch (error) {
-      // Fallback: Check local registered users first
-      const localUsers = getLocalUsers();
-      const localUser = localUsers.find(
-        (u) =>
-          u.email.toLowerCase() === email.toLowerCase() &&
-          u.password === password,
-      );
-      if (localUser) {
-        const payload = {
-          token: `demo-token-${Date.now()}`,
-          email: localUser.email,
-          role: localUser.role || "CUSTOMER",
-          fullName: localUser.fullName,
-        };
-        localStorage.setItem("token", payload.token);
-        localStorage.setItem("userEmail", payload.email);
-        localStorage.setItem("userRole", payload.role);
-        localStorage.setItem("userFullName", payload.fullName);
-        return payload;
-      }
-
-      // Fallback: Check mock demo accounts
-      const mockAcc = MOCK_ACCOUNTS.find(
-        (a) =>
-          a.email.toLowerCase() === email.toLowerCase() &&
-          a.password === password,
-      );
-      if (mockAcc) {
-        const payload = {
-          token: `demo-token-${Date.now()}`,
-          email: mockAcc.email,
-          role: mockAcc.role.toUpperCase(),
-          fullName: mockAcc.name,
-        };
-        localStorage.setItem("token", payload.token);
-        localStorage.setItem("userEmail", payload.email);
-        localStorage.setItem("userRole", payload.role);
-        localStorage.setItem("userFullName", payload.fullName);
-        return payload;
-      }
-
-      throw extractErrorMessage(error, "Email hoặc mật khẩu không chính xác");
     }
+
+    // 2. Kiểm tra tài khoản mẫu MOCK_ACCOUNTS
+    const mockAcc = MOCK_ACCOUNTS.find(
+      (a) => a.email.toLowerCase() === email.toLowerCase(),
+    );
+    if (mockAcc) {
+      if (mockAcc.password !== password) {
+        throw "Mật khẩu không chính xác.";
+      }
+      const payload = {
+        token: `demo-token-${Date.now()}`,
+        email: mockAcc.email,
+        role: mockAcc.role.toUpperCase(),
+        fullName: mockAcc.name,
+      };
+      localStorage.setItem("token", payload.token);
+      localStorage.setItem("userEmail", payload.email);
+      localStorage.setItem("userRole", payload.role);
+      localStorage.setItem("userFullName", payload.fullName);
+      return payload;
+    }
+
+    // 3. Nếu có cấu hình Backend API, gửi request lên server
+    if (HAS_API_SERVER) {
+      try {
+        const response = await api.post("/api/auth/login", { email, password });
+        const payload = response.data.data;
+        if (payload?.token) {
+          localStorage.setItem("token", payload.token);
+          localStorage.setItem("userEmail", email);
+          localStorage.setItem("userRole", payload.role ?? "");
+          localStorage.setItem("userFullName", payload.fullName ?? "");
+        }
+        return payload;
+      } catch (error) {
+        throw extractErrorMessage(error, "Email hoặc mật khẩu không chính xác");
+      }
+    }
+
+    throw "Tài khoản không tồn tại. Vui lòng đăng ký tài khoản mới.";
   },
 
   register: async (fullName: string, email: string, password: string) => {
-    try {
-      const response = await api.post("/api/auth/register", {
-        name: fullName,
-        email,
-        password,
-      });
-      return response.data.data;
-    } catch (error) {
-      // Fallback: Register locally in demo / offline mode
-      const localUsers = getLocalUsers();
-      const existing = localUsers.find(
-        (u) => u.email.toLowerCase() === email.toLowerCase(),
-      );
-      if (existing) {
-        throw "Gmail này đã được sử dụng để đăng ký tài khoản.";
-      }
+    // 1. Kiểm tra xem email đã tồn tại trong local users hoặc mock accounts chưa
+    const localUsers = getLocalUsers();
+    const existing =
+      localUsers.find((u) => u.email.toLowerCase() === email.toLowerCase()) ||
+      MOCK_ACCOUNTS.find((a) => a.email.toLowerCase() === email.toLowerCase());
 
-      const newUser: LocalUser = {
-        fullName,
-        email,
-        password,
-        role: "CUSTOMER",
-      };
-      localUsers.push(newUser);
-      saveLocalUsers(localUsers);
-
-      const payload = {
-        email,
-        role: "CUSTOMER",
-        fullName,
-      };
-      return payload;
+    if (existing) {
+      throw "Gmail này đã được sử dụng để đăng ký tài khoản.";
     }
+
+    // 2. Nếu có Backend API, đồng bộ lên server
+    if (HAS_API_SERVER) {
+      try {
+        const response = await api.post("/api/auth/register", {
+          name: fullName,
+          email,
+          password,
+        });
+        const newUser: LocalUser = {
+          fullName,
+          email,
+          password,
+          role: "CUSTOMER",
+        };
+        localUsers.push(newUser);
+        saveLocalUsers(localUsers);
+        return response.data.data;
+      } catch (error) {
+        // Nếu API lỗi, vẫn lưu local để người dùng trải nghiệm mượt mà
+      }
+    }
+
+    // 3. Lưu vào danh sách tài khoản cục bộ (ngay lập tức, 0s delay)
+    const newUser: LocalUser = {
+      fullName,
+      email,
+      password,
+      role: "CUSTOMER",
+    };
+    localUsers.push(newUser);
+    saveLocalUsers(localUsers);
+
+    return {
+      email,
+      role: "CUSTOMER",
+      fullName,
+    };
   },
 
   forgotPassword: async (email: string) => {
-    try {
-      const response = await api.post("/api/auth/forgot-password", { email });
-      return response.data.data;
-    } catch (error) {
-      return { message: "Mã OTP đã được gửi đến email của bạn", otp: "123456" };
+    if (HAS_API_SERVER) {
+      try {
+        const response = await api.post("/api/auth/forgot-password", { email });
+        return response.data.data;
+      } catch (error) {}
     }
+    return { message: "Mã OTP đã được gửi đến email của bạn", otp: "123456" };
   },
 
   verifyOtp: async (email: string, otp: string) => {
-    try {
-      const response = await api.post("/api/auth/verify-otp", { email, otp });
-      return response.data.data;
-    } catch (error) {
-      if (otp.length === 6) {
-        return { message: "Xác thực OTP thành công" };
-      }
-      throw extractErrorMessage(error, "Mã OTP không hợp lệ");
+    if (HAS_API_SERVER) {
+      try {
+        const response = await api.post("/api/auth/verify-otp", { email, otp });
+        return response.data.data;
+      } catch (error) {}
     }
+    if (otp.length === 6) {
+      return { message: "Xác thực OTP thành công" };
+    }
+    throw "Mã OTP không hợp lệ";
   },
 
   resetPassword: async (email: string, otp: string, newPassword: string) => {
-    try {
-      const response = await api.post("/api/auth/reset-password", {
-        email,
-        otp,
-        newPassword,
-      });
-      return response.data.data;
-    } catch (error) {
-      const localUsers = getLocalUsers();
-      const user = localUsers.find(
-        (u) => u.email.toLowerCase() === email.toLowerCase(),
-      );
-      if (user) {
-        user.password = newPassword;
-        saveLocalUsers(localUsers);
-      }
-      return { message: "Đổi mật khẩu thành công" };
+    if (HAS_API_SERVER) {
+      try {
+        const response = await api.post("/api/auth/reset-password", {
+          email,
+          otp,
+          newPassword,
+        });
+        return response.data.data;
+      } catch (error) {}
     }
+    const localUsers = getLocalUsers();
+    const user = localUsers.find(
+      (u) => u.email.toLowerCase() === email.toLowerCase(),
+    );
+    if (user) {
+      user.password = newPassword;
+      saveLocalUsers(localUsers);
+    }
+    return { message: "Đổi mật khẩu thành công" };
   },
 
   me: async () => {
